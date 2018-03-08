@@ -147,3 +147,160 @@
     //4.find all movies that have a synopsis that contains the word "dwarves" or "hobbit"
     //db.movies.find({$or:[{ $text: {$search: "dwarves"}},{ $text: {$search: "hobbit"}}]).pretty();
     //!To use a $text query in an $or expression, all clauses in the $or array must be indexed.
+    //db.movies.find({$or: [{ $text: {$search: "dwarves hobbit"}}]}).pretty(); 
+    
+    //5.find all movies that have a synopsis that contains the word "gold" and "dragon"
+    // db.movies.find({$text: { $search: "gold \"dragon\""}}).pretty();
+    
+    //DELETE DOCUMENT
+    //1.delete the movie "Pee Wee Herman's Big Adventure"
+    //db.movies.remove({"title":"Pee Wee Herman's Big Adventure"});
+
+    //2.delete the movie "Avatar"
+    //db.movies.remove({"title": "Avatar"});
+
+    //RELATIONSHIPS
+    //                                        !!!!!
+    //1.Insert the following documents into a users collection
+    // username : SallySmith
+    // first_name : "Sally"
+    // last_name : "Smith"
+
+    // username : JimmyHagen
+    // full_name :
+    //   first : "Jimmy"
+    //   last : "Hagen"
+    // !inserted multiple documents in a single query!
+    //db.users.insert([{username : "SallySmith",first_name : "Sally",last_name : "Smith"},
+    //{username : "JimmyHagen",full_name:{first : "Jimmy",last : "Hagen"}}]);
+    
+    //                                        !!!!!
+    //2.Insert the following documents into a posts collection
+    
+      // username : SallySmith
+      // title : Passes out at party
+      // body : Wakes up early and cleans house
+
+      // username : SallySmith
+      // title : Buys a House
+      // body : Living in a new neighborhood now
+
+      // username : SallySmith
+      // title : Reports a bug in your code
+      // body : Sends you a Pull Request
+
+      // username : JimmyHagen
+      // title : Borrows something
+      // body : Returns it when he is done
+
+      // username : JimmyHagen
+      // title : Borrows everything
+      // body : The end
+
+      // username : JimmyHagen
+      // title : Forks your repo on github
+      // body : Sets to private
+
+
+db.posts.insert([
+{    
+username : "SallySmith",
+title : "Passes out at party",
+body : "Wakes up early and cleans house"
+},
+{
+username : "SallySmith",
+title : "Buys a House",
+body : "Living in a new neighborhood now"
+},
+{
+username : "SallySmith",
+title : "Reports a bug in your code",
+body : "Sends you a Pull Request"
+},
+{
+username : "JimmyHagen",
+title : "Borrows something",
+body : "Returns it when he is done"
+},
+{
+username : "JimmyHagen",
+title : "Borrows everything",
+body : "The end"
+},
+{
+username : "JimmyHagen",
+title : "Forks your repo on github",
+body : "Sets to private"
+}
+]);
+
+//                                        !!!!!!!!   
+//3.Insert the following documents into a comments collection
+//where [post_obj_id] is the ObjectId of the posts document: "Borrows something"
+// username : SallySmith
+// comment : Hope you got a good deal!
+// post : [post_obj_id]
+
+//mongoimport --db mongo-exercises --collection comments --drop --file [add path]
+
+//var result = db.posts.findOne({title: "Borrows something"});
+//db.comments.insert({username: "SallySmith", comment: "Hope you get a good deal", post:{"$in":result["_id"]}});
+
+//4. Insert the following documents into a comments collection
+//   where [post_obj_id] is the ObjectId of the posts document: "Borrows everything"
+
+//   username : SallySmith
+//   comment : What's mine is yours!
+//   post : [post_obj_id]
+
+//   var anotherId = db.posts.findOne({title: "Borrows everything"});
+//   db.comments.insert({username: "SallySmith", comment:"What's mine is yours!",post: {"$in":anotherId["_id"]}});
+
+//5. Insert the following documents into a comments collection
+//   where [post_obj_id] is the ObjectId of the posts document: "Forks your repo on github"
+
+//username : SallySmith
+//comment : Don't violate the licensing agreement!
+//post : [post_obj_id]
+// var forksId = db.posts.findOne({title: "Forks your repo on github"});
+// db.comments.insert({username: "SallySmith", comment: "Don't violate the licensing agreement!", post:{"$in":forksId["_id"]}});
+
+//6. Insert the following documents into a comments collection
+//   where [post_obj_id] is the ObjectId of the posts document: "Passes out at party"
+
+//username : JimmyHagen
+//comment : It still isn't clean
+//post : [post_obj_id]
+
+//var partyId = db.posts.findOne({title: "Passes out at party"});
+//db.comments.insert({username: "JimmyHagen", comment: "It still isn't clean", post:{"$in":partyId["_id"]}});
+
+//7. Insert the following documents into a comments collection
+//   where [post_obj_id] is the ObjectId of the posts document: "Reports a bug in your code"
+
+//   username : JimmyHagen
+//   comment : Denied your PR cause I found a hack
+//   post : [post_obj_id]
+
+// var reportsBug = db.posts.findOne({title: "Reports a bug in your code"});
+// db.comment.insert({username: "JimmyHagen", comment: "Denied your PR cause I found a hack", post:{"$in":reportsBug["_id"]}});
+
+//QUERYING RELATED COLLECTIONS 
+//1.find all users
+//  show users
+
+//2.find all posts
+
+//3.find all posts that was authored by "SallySmith"
+
+//4.find all posts that was authored by "JimmyHagen"
+
+//5.find all comments
+
+//6.find all comments that was authored by "SallySmith"
+
+//7.find all comments that was authored by "JimmyHagen"
+
+//8.find all comments belonging to the post "Reports a bug in your code"
+
